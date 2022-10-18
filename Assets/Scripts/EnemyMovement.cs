@@ -5,27 +5,22 @@ using UnityEngine.UIElements;
 
 public class EnemyMovement : MonoBehaviour
 {
-    private Vector3 posIni;
+    private GameObject _player;
 
-    private Vector3 posFinal;
+    private int movespeed = 3;
     // Start is called before the first frame update
     void Start()
     {
-        posIni = transform.position;
-        posFinal = transform.position + new Vector3(0,0,-6);
+        _player = GameObject.FindWithTag("Player");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.z <= posIni.z && transform.position.z >= posFinal.z)
-        {
-            transform.Translate(Vector3.back * Time.deltaTime);
-        }
-        else
-        { 
-            transform.Translate(Vector3.forward * Time.deltaTime);
-        }
+        //Vector3 direction = _player.transform.position - transform.position;
+        transform.LookAt(_player.transform);
+        //transform.Translate(direction * 0.5f * Time.deltaTime);
+        transform.Translate(Vector3.forward * Time.deltaTime * movespeed);
         
     }
 }

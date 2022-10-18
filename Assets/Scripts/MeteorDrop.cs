@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class MeteorDrop : MonoBehaviour
 {
-    [SerializeField]
     private GameObject _player;
 
     private Vector3 direction;

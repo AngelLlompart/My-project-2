@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -29,7 +30,12 @@ public class PickUp : MonoBehaviour
             if (_coinSpawner.coins == _coinSpawner.maxCoins)
             {
                 Debug.Log("GAME OVER");
-                Destroy(GameObject.FindObjectOfType<PlayerMovement>());
+                #if UNITY_EDITOR
+                if(EditorApplication.isPlaying) 
+                {
+                    UnityEditor.EditorApplication.isPlaying = false;
+                }
+                #endif
             }
             _coinSpawner.SpawnNewCoin();
         }
