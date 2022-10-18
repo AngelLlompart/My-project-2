@@ -18,11 +18,11 @@ public class EnemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position == posIni && transform.position != posFinal)
+        if (transform.position.z <= posIni.z && transform.position.z >= posFinal.z)
         {
             transform.Translate(Vector3.back * Time.deltaTime);
         }
-        else if()
+        else
         { 
             transform.Translate(Vector3.forward * Time.deltaTime);
         }
