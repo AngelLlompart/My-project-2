@@ -6,15 +6,25 @@ public class MeteorSpawn : MonoBehaviour
 {
     [SerializeField]
     private GameObject meteorPrefab;
+
+    private float timer = 0.0f;
+
+    private float meteorSpawnFreq = 3f;
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(spawn());
+        //StartCoroutine(spawn());
     }
 
     // Update is called once per frame
     void Update()
     {
+        timer += Time.deltaTime;
+        if (timer >= meteorSpawnFreq)
+        {
+            timer = 0.0f;
+            Instantiate(meteorPrefab, transform.position, Quaternion.identity);
+        }
     }
 
     IEnumerator spawn()

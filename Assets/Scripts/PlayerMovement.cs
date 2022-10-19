@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] 
+    
     private int moveSpeed = 4;
     [SerializeField] 
     private int fuerzaSalto = 4;
@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool _isGrounded = true;
 
-    private int hp = 100;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -29,46 +29,11 @@ public class PlayerMovement : MonoBehaviour
         {
             _isGrounded = true;
         }
-        
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            hp -= 10;
-            Debug.Log("You lost 10% of your hp");
-            Debug.Log("Hp remaining: " + hp + "%");
-            
-            if (hp <= 0)
-            {
-                Debug.Log("YOU DIED");
-                Destroy(gameObject);
-               
-                #if UNITY_EDITOR
-                if(EditorApplication.isPlaying) 
-                {
-                    UnityEditor.EditorApplication.isPlaying = false;
-                }
-                #endif
-            }
-        }
 
-        if (collision.gameObject.CompareTag("Meteor"))
+        if (collision.gameObject.CompareTag("Speed"))
         {
-            
-            hp -= 30;
-            Debug.Log("You lost 30% of your hp");
-            Debug.Log("Hp remaining: " + hp + "%");
-            
-            if(hp <= 0)
-            {
-                Debug.Log("YOU DIED");
-                Destroy(gameObject);
-           
-                #if UNITY_EDITOR
-                if(EditorApplication.isPlaying) 
-                {
-                    UnityEditor.EditorApplication.isPlaying = false;
-                }
-                #endif
-            }
+            Destroy(collision.gameObject);
+            StartCoroutine(SpeedUp());
         }
     }
 
@@ -102,5 +67,12 @@ public class PlayerMovement : MonoBehaviour
         
         float h = Input.GetAxis("Mouse X");
         transform.Rotate(0, h, 0);
+    }
+
+    IEnumerator SpeedUp()
+    {
+        moveSpeed += 4;
+        yield return new WaitForSecondsRealtime(2);
+        moveSpeed -= 4;
     }
 }

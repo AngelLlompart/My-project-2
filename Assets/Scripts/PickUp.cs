@@ -7,12 +7,11 @@ using UnityEngine.UIElements;
 
 public class PickUp : MonoBehaviour
 {
-  
-    private CoinSpawner _coinSpawner;
+    private GameManager _gameManager;
     // Start is called before the first frame update
     void Start()
     {
-        _coinSpawner = FindObjectOfType<CoinSpawner>();
+        _gameManager = FindObjectOfType<GameManager>();
     }
 
     // Update is called once per frame
@@ -25,19 +24,8 @@ public class PickUp : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player"))
         {
+            _gameManager.IncrementarMonedas();
             Destroy(gameObject);
-            Debug.Log(10 * _coinSpawner.coins + "€");
-            if (_coinSpawner.coins == _coinSpawner.maxCoins)
-            {
-                Debug.Log("GAME OVER");
-                #if UNITY_EDITOR
-                if(EditorApplication.isPlaying) 
-                {
-                    UnityEditor.EditorApplication.isPlaying = false;
-                }
-                #endif
-            }
-            _coinSpawner.SpawnNewCoin();
         }
     }
 }
