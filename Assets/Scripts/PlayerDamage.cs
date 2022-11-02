@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class PlayerDamage : MonoBehaviour
 {
-    private int hp = 100;
+    private GameManager _gameManager;
     // Start is called before the first frame update
     void Start()
     {
-        
+        _gameManager = FindObjectOfType<GameManager>();
     }
 
     // Update is called once per frame
@@ -22,48 +22,22 @@ public class PlayerDamage : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Damage(10);
+            _gameManager.Damage(10);
         }
 
         if (collision.gameObject.CompareTag("Meteor"))
         {
-            Damage(30);
+            _gameManager.Damage(30);
         }
 
         if (collision.gameObject.CompareTag("Health"))
         {
-            if (hp != 100)
+            if (_gameManager.hp != 100)
             {
-                if (hp + 50 >= 100)
-                {
-                    hp = 100;
-                }
-                else
-                {
-                    hp += 50;
-                }
-                Debug.Log("+50 HP, Current HP: " + hp);
                 Destroy(collision.gameObject);
             }
+            _gameManager.Heal(50);
         }
     }
 
-    void Damage(int dmgAmount)
-    {
-        hp -= dmgAmount;
-        Debug.Log("You lost " + dmgAmount +"% of your hp");
-        Debug.Log("Hp remaining: " + hp + "%");
-        if (hp <= 0)
-        {
-            Debug.Log("YOU DIED");
-            Destroy(gameObject);
-
-            #if UNITY_EDITOR
-            if (EditorApplication.isPlaying)
-            {
-                UnityEditor.EditorApplication.isPlaying = false;
-            }
-            #endif
-        }
-    }
 }
