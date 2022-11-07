@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class Level1Manager : MonoBehaviour
 {
     public int hp = 100;
     private CoinSpawner _coinSpawner;
@@ -25,16 +25,49 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI _hpValue;
     [SerializeField] private TextMeshProUGUI _txtTime;
+
+    private bool win = false;
+
+    private int level = 0;
     // Start is called before the first frame update
     void Start()
     {
         _coinSpawner = FindObjectOfType<CoinSpawner>();
         _txtWin.gameObject.SetActive(false);
         _btnReiniciar.gameObject.SetActive(false);
-        _btnReiniciar.onClick.AddListener(ReiniciarNivel);
+        _btnReiniciar.onClick.AddListener(GameOver);
         _player = GameObject.FindWithTag("Player");
         _txtTime.text = "Time: " + _ogTimer;
         Time.timeScale = 1;
+        
+        if (!PlayerPrefs.HasKey("level"))
+        {
+            PlayerPrefs.SetInt("level",1);
+            PlayerPrefs.Save();
+        }
+        level = PlayerPrefs.GetInt("level");
+        
+        if (!PlayerPrefs.HasKey("coins"))
+        {
+            PlayerPrefs.SetInt("coins",0);
+            PlayerPrefs.Save(); 
+        }
+        coins = PlayerPrefs.GetInt("coins");
+        
+        if (level == 2)
+        {
+            maxCoins = 14;
+        }
+        _txtCoins.text = "Coins: " + coins + "/" + maxCoins;
+        
+        if (!PlayerPrefs.HasKey("hp"))
+        {
+            PlayerPrefs.SetInt("hp",100);
+            PlayerPrefs.Save(); 
+        }
+        hp = PlayerPrefs.GetInt("hp");
+        ShowLife();
+
     }
 
     // Update is called once per frame
@@ -50,6 +83,7 @@ public class GameManager : MonoBehaviour
         if (_timer <= 0)
         {
             EndLevel("Time ended! Game Over");
+            win = false;
         }
         
     }
@@ -66,15 +100,40 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            win = true;
+            if (level == 1)
             {
-               EndLevel("YOU WIN!");
+                EndLevel("Congratulations! Go to level 2");
+            }
+            else
+            {
+                EndLevel("YOU WIN!");
             }
         }
     }
 
-    public void ReiniciarNivel()
+    public void GameOver()
     {
-        SceneManager.LoadScene("GameOver");
+        if (level == 1 && win)
+        {
+            PlayerPrefs.SetInt("level", 2);
+            PlayerPrefs.SetInt("coins", coins);
+            PlayerPrefs.SetInt("hp", hp);
+            PlayerPrefs.Save();
+            SceneManager.LoadScene("Level2");
+        }
+        else
+        {
+            PlayerPrefs.SetInt("level", 1);
+            PlayerPrefs.SetInt("coins", 0);
+            PlayerPrefs.SetInt("hp", 100);
+            PlayerPrefs.Save();
+            SceneManager.LoadScene("GameOver");
+        }
+        
+        /*
+         * else if (level == 1 && !win) ...
+         */
     }
     
     public void Damage(int dmgAmount)
@@ -83,23 +142,17 @@ public class GameManager : MonoBehaviour
         
         //Debug.Log("You lost " + dmgAmount +"% of your hp");
         //Debug.Log("Hp remaining: " + hp + "%");
-        _healthBar.value = hp;
-        _hpValue.text = _healthBar.value.ToString() + "%";
-        if (hp < 50)
-        {
-            _healthBar.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = Color.red; 
-        }
+        ShowLife();
         if (hp <= 0)
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            win = false;
             Destroy(_player);
             Destroy(FindObjectOfType<FollowCamera>());
             Destroy(FindObjectOfType<EnemyMovement>());
             EndLevel("YOU DIED! Game Over");
         }
     }
-
+    
     public void Heal(int heal)
     {
         if (hp != 100)
@@ -112,15 +165,23 @@ public class GameManager : MonoBehaviour
             {
                 hp += heal;
             }
-            if (hp >= 50)
-            {
-                _healthBar.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = Color.green; 
-            }
-            _healthBar.value = hp;
-            _hpValue.text = _healthBar.value.ToString() + "%";
+            ShowLife();
         }
     }
-
+    
+    public void ShowLife(){
+        _healthBar.value = hp;
+        _hpValue.text = _healthBar.value.ToString() + "%";
+        if (hp < 50)
+        {
+            _healthBar.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = Color.red; 
+        }
+        if (hp >= 50)
+        {
+            _healthBar.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = Color.green; 
+        }
+    }
+    
     private void EndLevel(string message)
     {
         Cursor.visible = true;

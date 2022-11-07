@@ -8,12 +8,13 @@ using UnityEngine.UIElements;
 public class PickUp : MonoBehaviour
 {
     private GameManager _gameManager;
-
+    private Level1Manager _level1;
     private CoinSpawner _coinSpawner;
     // Start is called before the first frame update
     void Start()
     {
-        _gameManager = FindObjectOfType<GameManager>();
+        //_gameManager = FindObjectOfType<GameManager>();
+        _level1 = FindObjectOfType<Level1Manager>();
         _coinSpawner = FindObjectOfType<CoinSpawner>();
     }
 
@@ -27,7 +28,8 @@ public class PickUp : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player"))
         {
-            _gameManager.IncrementarMonedas();
+            //_gameManager.IncrementarMonedas();
+            _level1.IncrementarMonedas();
             Destroy(gameObject);
         }
         else if(collider.gameObject.CompareTag("Enemy"))

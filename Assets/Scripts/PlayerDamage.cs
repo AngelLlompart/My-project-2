@@ -6,10 +6,13 @@ using UnityEngine;
 public class PlayerDamage : MonoBehaviour
 {
     private GameManager _gameManager;
+
+    private Level1Manager _level1;
     // Start is called before the first frame update
     void Start()
     {
-        _gameManager = FindObjectOfType<GameManager>();
+        //_gameManager = FindObjectOfType<GameManager>();
+        _level1 = FindObjectOfType<Level1Manager>();
     }
 
     // Update is called once per frame
@@ -22,21 +25,23 @@ public class PlayerDamage : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            _gameManager.Damage(10);
+            //_gameManager.Damage(10);
+            _level1.Damage(10);
         }
 
         if (collision.gameObject.CompareTag("Meteor"))
         {
-            _gameManager.Damage(30);
+           // _gameManager.Damage(30);
+            _level1.Damage(30);
         }
 
         if (collision.gameObject.CompareTag("Health"))
         {
-            if (_gameManager.hp != 100)
+            if (_level1.hp != 100)
             {
                 Destroy(collision.gameObject);
             }
-            _gameManager.Heal(50);
+            _level1.Heal(50);
         }
     }
 
