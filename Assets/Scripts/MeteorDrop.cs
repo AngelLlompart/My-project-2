@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class MeteorDrop : MonoBehaviour
 {
+
+   
     private GameObject _player;
     private Vector3 direction;
     private Rigidbody _meteorRigidBody;
@@ -28,11 +30,6 @@ public class MeteorDrop : MonoBehaviour
         //transform.position += transform.forward * 10 * Time.deltaTime;
         
         //transform.Translate(direction * Time.deltaTime * movespeed);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        Destroy(gameObject);
     }
 
 }

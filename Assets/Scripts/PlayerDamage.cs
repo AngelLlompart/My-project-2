@@ -8,6 +8,9 @@ public class PlayerDamage : MonoBehaviour
     private GameManager _gameManager;
 
     private Level1Manager _level1;
+
+   // [SerializeField] private ParticleSystem hitMeteorParticleSystem;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +35,9 @@ public class PlayerDamage : MonoBehaviour
         if (collision.gameObject.CompareTag("Meteor"))
         {
            // _gameManager.Damage(30);
+           
             _level1.Damage(30);
+            //hitMeteorParticleSystem.Play();
         }
 
         if (collision.gameObject.CompareTag("Health"))
