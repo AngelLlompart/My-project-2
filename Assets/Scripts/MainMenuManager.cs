@@ -22,6 +22,7 @@ public class MainMenuManager : MonoBehaviour
 
     private void LoadLevel1()
     {
+        PlayerPrefs.SetInt("level", 1);
         SceneManager.LoadScene("Level1");
     }
 }

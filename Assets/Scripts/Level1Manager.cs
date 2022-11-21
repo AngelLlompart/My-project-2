@@ -27,46 +27,25 @@ public class Level1Manager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _txtTime;
 
     private bool win = false;
-
     private int level = 0;
-    // Start is called before the first frame update
+    
+    private GameObject _level1ManagerGameObject;
+    public static Level1Manager instance;
+
+    private void Awake()
+    {
+        InitLevel();
+        _level1ManagerGameObject = GameObject.Find("Game Manager");
+        if(instance != null && instance != this){
+            Destroy(gameObject);
+        } else {
+            instance = this;
+            DontDestroyOnLoad(_level1ManagerGameObject);
+        }
+    }
     void Start()
     {
-        _coinSpawner = FindObjectOfType<CoinSpawner>();
-        _txtWin.gameObject.SetActive(false);
-        _btnReiniciar.gameObject.SetActive(false);
-        _btnReiniciar.onClick.AddListener(GameOver);
-        _player = GameObject.FindWithTag("Player");
-        _txtTime.text = "Time: " + _ogTimer;
-        Time.timeScale = 1;
-        
-        if (!PlayerPrefs.HasKey("level"))
-        {
-            PlayerPrefs.SetInt("level",1);
-            PlayerPrefs.Save();
-        }
-        level = PlayerPrefs.GetInt("level");
-        
-        if (!PlayerPrefs.HasKey("coins"))
-        {
-            PlayerPrefs.SetInt("coins",0);
-            PlayerPrefs.Save(); 
-        }
-        coins = PlayerPrefs.GetInt("coins");
-        
-        if (level == 2)
-        {
-            maxCoins = 14;
-        }
-        _txtCoins.text = "Coins: " + coins + "/" + maxCoins;
-        
-        if (!PlayerPrefs.HasKey("hp"))
-        {
-            PlayerPrefs.SetInt("hp",100);
-            PlayerPrefs.Save(); 
-        }
-        hp = PlayerPrefs.GetInt("hp");
-        ShowLife();
+        InitLevel();
 
     }
 
@@ -116,21 +95,23 @@ public class Level1Manager : MonoBehaviour
     {
         if (level == 1 && win)
         {
+            win = false;
             PlayerPrefs.SetInt("level", 2);
-            PlayerPrefs.SetInt("coins", coins);
-            PlayerPrefs.SetInt("hp", hp);
+            //PlayerPrefs.SetInt("coins", coins);
+            //PlayerPrefs.SetInt("hp", hp);
             PlayerPrefs.Save();
             SceneManager.LoadScene("Level2");
         }
         else
         {
             PlayerPrefs.SetInt("level", 1);
-            PlayerPrefs.SetInt("coins", 0);
-            PlayerPrefs.SetInt("hp", 100);
+            //PlayerPrefs.SetInt("coins", 0);
+            //PlayerPrefs.SetInt("hp", 100);
             PlayerPrefs.Save();
             SceneManager.LoadScene("GameOver");
         }
-        
+        InitLevel();
+        Debug.Log("AAAAAAAa");
         /*
          * else if (level == 1 && !win) ...
          */
@@ -191,5 +172,46 @@ public class Level1Manager : MonoBehaviour
         _btnReiniciar.gameObject.SetActive(true);
         //PAUSAR EL JUEGO
         Time.timeScale = 0;
+    }
+    
+    private void InitLevel()
+    {
+        //_txtCoins = GameObject.Find("TxtCoins");
+        _coinSpawner = FindObjectOfType<CoinSpawner>();
+        _txtWin.gameObject.SetActive(false);
+        _btnReiniciar.gameObject.SetActive(false);
+        _btnReiniciar.onClick.AddListener(GameOver);
+        _player = GameObject.FindWithTag("Player");
+        _txtTime.text = "Time: " + _ogTimer;
+        Time.timeScale = 1;
+        
+        if (!PlayerPrefs.HasKey("level"))
+        {
+            PlayerPrefs.SetInt("level",1);
+            PlayerPrefs.Save();
+        }
+        level = PlayerPrefs.GetInt("level");
+        
+        /*
+        if (!PlayerPrefs.HasKey("coins"))
+        {
+            PlayerPrefs.SetInt("coins",0);
+            PlayerPrefs.Save(); 
+        }
+        coins = PlayerPrefs.GetInt("coins");*/
+        
+        if (level == 2)
+        {
+            maxCoins = 14;
+        }
+        _txtCoins.text = "Coins: " + coins + "/" + maxCoins;
+        
+        /*if (!PlayerPrefs.HasKey("hp"))
+        {
+            PlayerPrefs.SetInt("hp",100);
+            PlayerPrefs.Save(); 
+        }
+        hp = PlayerPrefs.GetInt("hp");*/
+        ShowLife();
     }
 }
