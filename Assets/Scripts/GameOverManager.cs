@@ -15,6 +15,9 @@ public class GameOverManager : MonoBehaviour
         _btnRestart.onClick.AddListener(LoadLevel1);
         _btnMenu.onClick.AddListener(LoadMenu);
         _btnQuit.onClick.AddListener(Quit);
+        
+        Destroy(GameObject.Find("Game Manager"));
+        Destroy(GameObject.Find("Level Audio Manager"));
     }
 
     // Update is called once per frame

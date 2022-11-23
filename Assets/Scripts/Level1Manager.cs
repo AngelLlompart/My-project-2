@@ -13,8 +13,8 @@ public class Level1Manager : MonoBehaviour
     private int maxCoins = 5;
     private int coins = 0;
     private GameObject _player;
-    private float _timer = 40;
-    private int _ogTimer = 40;
+    private float _timer;
+    private int _ogTimer;
     private int timeFrequenccy = 1;
 
     [SerializeField] private TextMeshProUGUI _txtCoins;
@@ -29,18 +29,18 @@ public class Level1Manager : MonoBehaviour
     private bool win = false;
     private int level = 0;
     
-    private GameObject _level1ManagerGameObject;
+    //private GameObject _level1ManagerGameObject;
     public static Level1Manager instance;
 
     private void Awake()
     {
-        InitLevel();
-        _level1ManagerGameObject = GameObject.Find("Game Manager");
+        //InitLevel();
+        //_level1ManagerGameObject = GameObject.Find("Game Manager");
         if(instance != null && instance != this){
             Destroy(gameObject);
         } else {
             instance = this;
-            DontDestroyOnLoad(_level1ManagerGameObject);
+            DontDestroyOnLoad(gameObject);
         }
     }
     void Start()
@@ -111,7 +111,6 @@ public class Level1Manager : MonoBehaviour
             SceneManager.LoadScene("GameOver");
         }
         InitLevel();
-        Debug.Log("AAAAAAAa");
         /*
          * else if (level == 1 && !win) ...
          */
@@ -176,6 +175,9 @@ public class Level1Manager : MonoBehaviour
     
     private void InitLevel()
     {
+        _timer = 40;
+        _ogTimer = 40;
+        win = false;
         //_txtCoins = GameObject.Find("TxtCoins");
         _coinSpawner = FindObjectOfType<CoinSpawner>();
         _txtWin.gameObject.SetActive(false);
@@ -205,7 +207,8 @@ public class Level1Manager : MonoBehaviour
             maxCoins = 14;
         }
         _txtCoins.text = "Coins: " + coins + "/" + maxCoins;
-        
+
+
         /*if (!PlayerPrefs.HasKey("hp"))
         {
             PlayerPrefs.SetInt("hp",100);
