@@ -2083,6 +2083,7 @@ MonoBehaviour:
   _healthBar: {fileID: 1941459443}
   _hpValue: {fileID: 1066212181}
   _txtTime: {fileID: 1205573077}
+  level: 0
 --- !u!1 &657557419
 GameObject:
   m_ObjectHideFlags: 0
@@ -6306,7 +6307,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 954096346}
   m_HandleRect: {fileID: 0}

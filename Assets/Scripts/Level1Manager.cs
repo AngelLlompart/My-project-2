@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -16,6 +17,8 @@ public class Level1Manager : MonoBehaviour
     private float _timer;
     private int _ogTimer;
     private int timeFrequenccy = 1;
+    private int hp2;
+    private int coin2;
 
     [SerializeField] private TextMeshProUGUI _txtCoins;
     [SerializeField] private TextMeshProUGUI _txtWin;
@@ -27,7 +30,7 @@ public class Level1Manager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _txtTime;
 
     private bool win = false;
-    private int level = 0;
+    [SerializeField] private int level = 0;
     
     //private GameObject _level1ManagerGameObject;
     public static Level1Manager instance;
@@ -101,6 +104,16 @@ public class Level1Manager : MonoBehaviour
             //PlayerPrefs.SetInt("hp", hp);
             PlayerPrefs.Save();
             SceneManager.LoadScene("Level2");
+            hp2 = hp;
+            coin2 = coins;
+
+        }
+        else if(level == 2 && !win)
+        {
+            SceneManager.LoadScene("GameOver");
+            //PlayerPrefs.SetInt("level", 2);
+            hp = hp2;
+            coins = coin2;
         }
         else
         {
@@ -109,6 +122,7 @@ public class Level1Manager : MonoBehaviour
             //PlayerPrefs.SetInt("hp", 100);
             PlayerPrefs.Save();
             SceneManager.LoadScene("GameOver");
+            
         }
         InitLevel();
         /*

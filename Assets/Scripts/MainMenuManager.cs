@@ -10,6 +10,7 @@ public class MainMenuManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Destroy(GameObject.Find("Game Manager"));
         PlayerPrefs.DeleteAll();
         _btnPlay.onClick.AddListener(LoadLevel1);
     }

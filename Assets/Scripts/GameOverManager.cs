@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class GameOverManager : MonoBehaviour
@@ -12,12 +13,20 @@ public class GameOverManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _btnRestart.onClick.AddListener(LoadLevel1);
+        _btnRestart.onClick.AddListener(LoadLevel);
         _btnMenu.onClick.AddListener(LoadMenu);
         _btnQuit.onClick.AddListener(Quit);
-        
-        Destroy(GameObject.Find("Game Manager"));
+
+        if (PlayerPrefs.GetInt("level") == 1)
+        {
+            Destroy(GameObject.Find("Game Manager")); 
+        }
+        else
+        {
+            //GameObject.Find("Game Manager").GetComponentInChildren<EventSystem>().gameObject.SetActive(false);
+        }
         Destroy(GameObject.Find("Level Audio Manager"));
+        
     }
 
     // Update is called once per frame
@@ -26,9 +35,18 @@ public class GameOverManager : MonoBehaviour
         
     }
     
-    private void LoadLevel1()
+    private void LoadLevel()
     {
-        SceneManager.LoadScene("Level1");
+        
+        if(PlayerPrefs.GetInt("level") == 1)
+        {
+            SceneManager.LoadScene("Level1");
+        }
+        else
+        {
+            SceneManager.LoadScene("Level2");
+            //GameObject.Find("Game Manager").GetComponentInChildren<EventSystem>().gameObject.SetActive(true);
+        }
     }
 
     private void LoadMenu()
