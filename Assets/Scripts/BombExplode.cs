@@ -7,6 +7,10 @@ public class BombExplode : MonoBehaviour
 {
     public float radi;
     private AudioSource _bombAudioSource;
+
+    public delegate void Explosion(float radi, Transform bombPosition);
+
+    public static event Explosion onGrenadeExplosion;
     
     [SerializeField] private ParticleSystem hitParticleSystem;
     // Start is called before the first frame update
@@ -29,7 +33,11 @@ public class BombExplode : MonoBehaviour
         {
             hitParticleSystem.Play();
             Destroy(gameObject, 0.1f);
-            DestroyEnemies();
+            if (onGrenadeExplosion != null)
+            {
+                onGrenadeExplosion(radi, transform);
+            }
+            //DestroyEnemies();
         }
     }
 

@@ -16,7 +16,7 @@ public class ThrowBomb : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode. B))
         {
             GameObject bombInst = Instantiate(bomb, _bombSpawner.transform.position, Quaternion.identity);
             Rigidbody bombRb = bombInst.GetComponent<Rigidbody>();
