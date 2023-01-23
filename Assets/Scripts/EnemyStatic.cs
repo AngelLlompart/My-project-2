@@ -7,11 +7,6 @@ using UnityEngine.EventSystems;
 public class EnemyStatic : Enemy
 {
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     public override void Move()
     {
         throw new System.NotImplementedException();

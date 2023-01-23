@@ -9,11 +9,14 @@ public class EnemyMovement : Enemy
 
     private int movespeed = 3;
     // Start is called before the first frame update
+    
     void Start()
     {
+        base.Start();
         _player = GameObject.FindWithTag("Player");
     }
 
+    
     // Update is called once per frame
 
     public override void Move()
