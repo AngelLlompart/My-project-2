@@ -19,6 +19,8 @@ public class CoinSpawner : MonoBehaviour
     void Start()
     {
         SpawnNewCoin();
+        PickUp.spawnCoin += SpawnNewCoin;
+        Level1Manager.spawnCoin += SpawnNewCoin;
     }
 
     // Update is called once per frame

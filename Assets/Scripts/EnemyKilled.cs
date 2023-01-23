@@ -18,7 +18,8 @@ public class EnemyKilled : MonoBehaviour
 
     private void Die(float radi, Transform bombTransform)
     {
-        double distance = Mathf.Sqrt(Mathf.Pow(transform.position.x - bombTransform.transform.position.x, 2) + Mathf.Pow(transform.position.z - bombTransform.transform.position.z,2));
+        //double distance = Mathf.Sqrt(Mathf.Pow(transform.position.x - bombTransform.transform.position.x, 2) + Mathf.Pow(transform.position.z - bombTransform.transform.position.z,2));
+        double distance = Vector3.Magnitude(transform.position - bombTransform.transform.position);
         if (distance < radi)
         {
             Destroy(this.gameObject);

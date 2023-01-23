@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,7 +11,7 @@ using UnityEngine.UI;
 public class Level1Manager : MonoBehaviour
 {
     public int hp = 100;
-    private CoinSpawner _coinSpawner;
+    //private CoinSpawner _coinSpawner;
     private int maxCoins = 5;
     private int coins = 0;
     private GameObject _player;
@@ -31,6 +32,7 @@ public class Level1Manager : MonoBehaviour
 
     private bool win = false;
     [SerializeField] private int level = 0;
+    public static event Action spawnCoin;
     
     //private GameObject _level1ManagerGameObject;
     public static Level1Manager instance;
@@ -49,7 +51,7 @@ public class Level1Manager : MonoBehaviour
     void Start()
     {
         InitLevel();
-
+        PickUp.incrementarMonedas += IncrementarMonedas;
     }
 
     // Update is called once per frame
@@ -78,7 +80,8 @@ public class Level1Manager : MonoBehaviour
         if (coins < maxCoins)
         {
             //Debug.Log( "You have " + coins + " coin/s");
-            _coinSpawner.SpawnNewCoin();
+            //_coinSpawner.SpawnNewCoin();
+            spawnCoin();
         }
         else
         {
@@ -92,6 +95,7 @@ public class Level1Manager : MonoBehaviour
                 EndLevel("YOU WIN!");
             }
         }
+        //PickUp.incrementarMonedas -= IncrementarMonedas;
     }
 
     public void GameOver()
@@ -193,7 +197,7 @@ public class Level1Manager : MonoBehaviour
         _ogTimer = 40;
         win = false;
         //_txtCoins = GameObject.Find("TxtCoins");
-        _coinSpawner = FindObjectOfType<CoinSpawner>();
+        //_coinSpawner = FindObjectOfType<CoinSpawner>();
         _txtWin.gameObject.SetActive(false);
         _btnReiniciar.gameObject.SetActive(false);
         _btnReiniciar.onClick.AddListener(GameOver);

@@ -9,15 +9,17 @@ public class PickUp : MonoBehaviour
 {
     private AudioSource _playerAudioSource;
     //private GameManager _gameManager;
-    private Level1Manager _level1;
-    private CoinSpawner _coinSpawner;
+    //private CoinSpawner _coinSpawner;
+    
+    //public delegate void IncrementarMonedas();
+    public static event Action incrementarMonedas;
+    public static event Action spawnCoin;
     
     // Start is called before the first frame update
     void Start()
     {
         //_gameManager = FindObjectOfType<GameManager>();
-        _level1 = FindObjectOfType<Level1Manager>();
-        _coinSpawner = FindObjectOfType<CoinSpawner>();
+        //_coinSpawner = FindObjectOfType<CoinSpawner>();
         _playerAudioSource = GameObject.FindWithTag("Player").GetComponent<AudioSource>();
     }
 
@@ -35,12 +37,12 @@ public class PickUp : MonoBehaviour
             
             //Play sound effect collect coin
             _playerAudioSource.Play();
-            _level1.IncrementarMonedas();
+            incrementarMonedas();
             Destroy(gameObject);
         }
         else if(collider.gameObject.CompareTag("Enemy"))
         {
-            _coinSpawner.SpawnNewCoin();
+            spawnCoin();
             Destroy(gameObject);
         }
     }

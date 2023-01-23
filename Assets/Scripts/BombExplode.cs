@@ -46,10 +46,12 @@ public class BombExplode : MonoBehaviour
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (var enemy in enemies)
         {
-            double distance = Mathf.Sqrt(Mathf.Pow(enemy.transform.position.x - transform.position.x, 2) + Mathf.Pow(enemy.transform.position.z - transform.position.z,2));
+            //double distance = Mathf.Sqrt(Mathf.Pow(enemy.transform.position.x - transform.position.x, 2) + Mathf.Pow(enemy.transform.position.z - transform.position.z,2));
+            double distance = Vector3.Magnitude(enemy.transform.position - transform.position);
             if (distance < radi)
             {
                 Destroy(enemy);
+                //re Init enemies
             }
         }
     }
