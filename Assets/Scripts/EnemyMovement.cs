@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class EnemyMovement : MonoBehaviour
+public class EnemyMovement : Enemy
 {
     private GameObject _player;
 
@@ -15,12 +15,17 @@ public class EnemyMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+
+    public override void Move()
     {
         //Vector3 direction = _player.transform.position - transform.position;
         transform.LookAt(_player.transform);
         //transform.Translate(direction * 0.5f * Time.deltaTime);
         transform.Translate(Vector3.forward * Time.deltaTime * movespeed);
-        
+    }
+
+    void Update()
+    {
+        Move();
     }
 }
